@@ -1,4 +1,4 @@
-import { ArrowLeft, Clock, Users, ChefHat, Zap, CheckCircle2, Lightbulb, Flame } from 'lucide-react';
+import { ArrowLeft, Clock, Users, ChefHat, Zap, CheckCircle2, Lightbulb, Flame, PackageX, Sparkles } from 'lucide-react';
 import ExportMenu from './ExportMenu';
 import type { Recipe } from '../types/recipe';
 
@@ -7,91 +7,93 @@ interface RecipeDisplayProps {
   onBack: () => void;
 }
 
+const DIFFICULTY_STYLE: Record<string, string> = {
+  Easy:   'bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400 border-green-200 dark:border-green-800',
+  Medium: 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400 border-amber-200 dark:border-amber-800',
+  Hard:   'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800',
+};
+
 export default function RecipeDisplay({ recipe, onBack }: RecipeDisplayProps) {
-  const difficultyColor = {
-    Easy: 'text-emerald-600 bg-emerald-100 dark:bg-emerald-900/40 dark:text-emerald-400',
-    Medium: 'text-amber-600 bg-amber-100 dark:bg-amber-900/40 dark:text-amber-400',
-    Hard: 'text-red-600 bg-red-100 dark:bg-red-900/40 dark:text-red-400',
-  }[recipe.difficulty] ?? 'text-gray-600 bg-gray-100 dark:bg-gray-800 dark:text-gray-400';
+  const diffStyle = DIFFICULTY_STYLE[recipe.difficulty] ?? 'bg-warm-100 text-warm-500 border-warm-200';
+  const unusedList = recipe.unusedIngredients ?? [];
+  const recommended = recipe.recommendedIngredients ?? [];
 
   return (
     <div className="animate-slide-up max-w-3xl mx-auto">
       {/* Top bar */}
       <div className="flex items-center justify-between mb-5 no-print">
-        <button
-          onClick={onBack}
-          className="flex items-center gap-1.5 text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          New Recipe
+        <button onClick={onBack} className="btn-ghost text-sm">
+          <ArrowLeft className="w-4 h-4" /> New Recipe
         </button>
         <ExportMenu recipe={recipe} />
       </div>
 
       {/* Recipe card */}
-      <div className="recipe-card bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
-        {/* Header */}
-        <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 p-6 pb-8">
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <div className="flex items-center gap-2 mb-2">
+      <div className="recipe-card bg-white dark:bg-brand-950 rounded-2xl border border-warm-200 dark:border-brand-800 shadow-warm-md overflow-hidden">
+
+        {/* Hero header */}
+        <div className="bg-brand-gradient p-6 pb-7 relative overflow-hidden">
+          {/* decorative circles */}
+          <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-white/5" />
+          <div className="absolute -bottom-8 -left-4 w-24 h-24 rounded-full bg-white/5" />
+
+          <div className="relative flex items-start justify-between gap-3">
+            <div className="flex-1">
+              <div className="flex flex-wrap items-center gap-1.5 mb-2">
                 {recipe.cuisineType && (
-                  <span className="px-2 py-0.5 bg-white/20 text-white text-xs font-medium rounded-full">
+                  <span className="px-2.5 py-0.5 bg-white/20 text-white text-xs font-medium rounded-full border border-white/20">
                     {recipe.cuisineType}
                   </span>
                 )}
-                <span className={`px-2 py-0.5 text-xs font-medium rounded-full ${difficultyColor}`}>
-                  {recipe.difficulty}
-                </span>
+                {recipe.difficulty && (
+                  <span className={`px-2.5 py-0.5 text-xs font-medium rounded-full border ${diffStyle}`}>
+                    {recipe.difficulty}
+                  </span>
+                )}
               </div>
-              <h1 className="text-2xl font-bold text-white mb-1">{recipe.title}</h1>
-              <p className="text-emerald-100 text-sm leading-relaxed">{recipe.description}</p>
+              <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight">{recipe.title}</h1>
+              <p className="text-brand-100 text-sm leading-relaxed">{recipe.description}</p>
             </div>
-            <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center flex-shrink-0">
+            <div className="w-11 h-11 bg-white/15 rounded-xl flex items-center justify-center flex-shrink-0 border border-white/20">
               <ChefHat className="w-6 h-6 text-white" />
             </div>
           </div>
         </div>
 
-        {/* Time/Servings badges */}
-        <div className="grid grid-cols-4 divide-x divide-gray-100 dark:divide-gray-700 border-b border-gray-100 dark:border-gray-700">
+        {/* Time / Servings strip */}
+        <div className="grid grid-cols-4 divide-x divide-warm-100 dark:divide-brand-800 border-b border-warm-100 dark:border-brand-800 bg-warm-50 dark:bg-brand-900/40">
           {[
-            { icon: Clock, label: 'Prep', value: recipe.prepTime },
-            { icon: Flame, label: 'Cook', value: recipe.cookTime },
-            { icon: Zap, label: 'Total', value: recipe.totalTime },
-            { icon: Users, label: 'Serves', value: recipe.servings.toString() },
+            { icon: Clock, label: 'Prep',   value: recipe.prepTime },
+            { icon: Flame, label: 'Cook',   value: recipe.cookTime },
+            { icon: Zap,   label: 'Total',  value: recipe.totalTime },
+            { icon: Users, label: 'Serves', value: String(recipe.servings) },
           ].map(({ icon: Icon, label, value }) => (
             <div key={label} className="flex flex-col items-center py-3 px-2">
-              <Icon className="w-4 h-4 text-emerald-500 mb-1" />
-              <span className="text-xs text-gray-500 dark:text-gray-400">{label}</span>
-              <span className="text-sm font-semibold text-gray-900 dark:text-white mt-0.5">{value}</span>
+              <Icon className="w-4 h-4 text-brand mb-1" />
+              <span className="text-xs text-warm-400">{label}</span>
+              <span className="text-sm font-semibold text-gray-900 dark:text-warm-100 mt-0.5">{value}</span>
             </div>
           ))}
         </div>
 
-        <div className="p-6 space-y-7">
+        <div className="p-6 space-y-8">
+
           {/* Ingredients */}
           <section>
-            <h2 className="text-base font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-              <span className="w-6 h-6 bg-emerald-100 dark:bg-emerald-900/40 rounded-lg flex items-center justify-center text-emerald-600 dark:text-emerald-400 text-xs font-bold">I</span>
+            <h2 className="section-title">
+              <span className="section-icon bg-brand-50 dark:bg-brand-900 text-brand text-xs">I</span>
               Ingredients
             </h2>
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {recipe.ingredients.map((ingredient, i) => (
-                <li
-                  key={i}
-                  className="flex items-start gap-2 p-2.5 bg-gray-50 dark:bg-gray-900/50 rounded-xl"
-                >
-                  <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">
-                    <span className="font-medium text-gray-900 dark:text-white">
-                      {[ingredient.amount, ingredient.unit].filter(Boolean).join(' ')}
+              {recipe.ingredients.map((ing, i) => (
+                <li key={i} className="flex items-start gap-2 p-2.5 bg-warm-50 dark:bg-brand-900/40 rounded-xl border border-warm-100 dark:border-brand-800">
+                  <CheckCircle2 className="w-4 h-4 text-brand mt-0.5 flex-shrink-0" />
+                  <span className="text-sm text-gray-700 dark:text-warm-200">
+                    <span className="font-medium text-gray-900 dark:text-warm-100">
+                      {[ing.amount, ing.unit].filter(Boolean).join(' ')}
                     </span>
-                    {' '}
-                    {ingredient.name}
-                    {ingredient.notes && (
-                      <span className="text-gray-400 dark:text-gray-500 ml-1">({ingredient.notes})</span>
-                    )}
+                    {' '}{ing.name}
+                    {ing.notes && <span className="text-warm-400 ml-1">({ing.notes})</span>}
                   </span>
                 </li>
               ))}
@@ -100,17 +102,17 @@ export default function RecipeDisplay({ recipe, onBack }: RecipeDisplayProps) {
 
           {/* Instructions */}
           <section>
-            <h2 className="text-base font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-              <span className="w-6 h-6 bg-blue-100 dark:bg-blue-900/40 rounded-lg flex items-center justify-center text-blue-600 dark:text-blue-400 text-xs font-bold">S</span>
+            <h2 className="section-title">
+              <span className="section-icon bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 text-xs">S</span>
               Instructions
             </h2>
             <ol className="space-y-3">
               {recipe.instructions.map((step, i) => (
                 <li key={i} className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 bg-gray-900 dark:bg-gray-100 text-white dark:text-gray-900 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">
+                  <span className="flex-shrink-0 w-6 h-6 bg-brand text-white rounded-full flex items-center justify-center text-xs font-bold mt-0.5">
                     {i + 1}
                   </span>
-                  <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">{step}</p>
+                  <p className="text-sm text-gray-700 dark:text-warm-200 leading-relaxed">{step}</p>
                 </li>
               ))}
             </ol>
@@ -118,39 +120,39 @@ export default function RecipeDisplay({ recipe, onBack }: RecipeDisplayProps) {
 
           {/* Nutrition */}
           <section>
-            <h2 className="text-base font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-              <span className="w-6 h-6 bg-violet-100 dark:bg-violet-900/40 rounded-lg flex items-center justify-center text-violet-600 dark:text-violet-400 text-xs font-bold">N</span>
+            <h2 className="section-title">
+              <span className="section-icon bg-violet-50 dark:bg-violet-900/30 text-violet-600 dark:text-violet-400 text-xs">N</span>
               Nutrition Estimate
-              <span className="text-xs font-normal text-gray-400 dark:text-gray-500">per serving</span>
+              <span className="text-xs font-normal text-warm-400 ml-1">per serving</span>
             </h2>
             <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
               {[
-                { label: 'Calories', value: recipe.nutritionEstimate.calories, color: 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400' },
-                { label: 'Protein', value: recipe.nutritionEstimate.protein, color: 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400' },
-                { label: 'Carbs', value: recipe.nutritionEstimate.carbohydrates, color: 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400' },
-                { label: 'Fat', value: recipe.nutritionEstimate.fat, color: 'bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-400' },
-                { label: 'Fiber', value: recipe.nutritionEstimate.fiber, color: 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400' },
-              ].map(({ label, value, color }) => (
-                <div key={label} className={`${color} rounded-xl p-3 text-center`}>
+                { label: 'Calories', value: recipe.nutritionEstimate.calories, style: 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 border-orange-100 dark:border-orange-900/30' },
+                { label: 'Protein',  value: recipe.nutritionEstimate.protein,  style: 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-100 dark:border-red-900/30' },
+                { label: 'Carbs',    value: recipe.nutritionEstimate.carbohydrates, style: 'bg-amber-50 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 border-amber-100 dark:border-amber-900/30' },
+                { label: 'Fat',      value: recipe.nutritionEstimate.fat,      style: 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400 border-purple-100 dark:border-purple-900/30' },
+                { label: 'Fiber',    value: recipe.nutritionEstimate.fiber,    style: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-100 dark:border-green-900/30' },
+              ].map(({ label, value, style }) => (
+                <div key={label} className={`${style} border rounded-xl p-3 text-center`}>
                   <p className="text-lg font-bold">{value}</p>
-                  <p className="text-xs opacity-75 mt-0.5">{label}</p>
+                  <p className="text-xs opacity-70 mt-0.5">{label}</p>
                 </div>
               ))}
             </div>
           </section>
 
-          {/* Cooking tips */}
+          {/* Cooking Tips */}
           {recipe.cookingTips.length > 0 && (
             <section>
-              <h2 className="text-base font-bold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
-                <span className="w-6 h-6 bg-amber-100 dark:bg-amber-900/40 rounded-lg flex items-center justify-center text-amber-600 dark:text-amber-400">
+              <h2 className="section-title">
+                <span className="section-icon bg-amber-50 dark:bg-amber-900/30 text-amber-500">
                   <Lightbulb className="w-3.5 h-3.5" />
                 </span>
                 Cooking Tips
               </h2>
               <ul className="space-y-2">
                 {recipe.cookingTips.map((tip, i) => (
-                  <li key={i} className="flex gap-2.5 p-3 bg-amber-50 dark:bg-amber-900/10 border border-amber-200 dark:border-amber-900/30 rounded-xl">
+                  <li key={i} className="flex gap-2.5 p-3 bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 rounded-xl">
                     <Lightbulb className="w-4 h-4 text-amber-500 flex-shrink-0 mt-0.5" />
                     <p className="text-sm text-amber-800 dark:text-amber-300">{tip}</p>
                   </li>
@@ -158,10 +160,66 @@ export default function RecipeDisplay({ recipe, onBack }: RecipeDisplayProps) {
               </ul>
             </section>
           )}
+
+          {/* Recommended Ingredients */}
+          {recommended.length > 0 && (
+            <section>
+              <h2 className="section-title">
+                <span className="section-icon bg-brand-50 dark:bg-brand-900 text-brand">
+                  <Sparkles className="w-3.5 h-3.5" />
+                </span>
+                Recommended Additions
+                <span className="text-xs font-normal text-warm-400 ml-1">ingredients that would elevate this dish</span>
+              </h2>
+              <ul className="space-y-2">
+                {recommended.map((rec, i) => (
+                  <li key={i} className="flex items-start gap-3 p-3.5 bg-brand-50 dark:bg-brand-900/40 border border-brand-100 dark:border-brand-800 rounded-xl">
+                    <div className="w-7 h-7 bg-brand-gradient rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Sparkles className="w-3.5 h-3.5 text-white" />
+                    </div>
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5 mb-0.5">
+                        <span className="text-sm font-semibold text-brand-700 dark:text-brand-300">{rec.name}</span>
+                        <span className="text-xs text-brand-500 dark:text-brand-400 font-medium">{rec.quantity}</span>
+                      </div>
+                      <p className="text-xs text-brand-600 dark:text-brand-400 leading-relaxed">{rec.reason}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {/* Unused Ingredients */}
+          {unusedList.length > 0 && (
+            <section>
+              <h2 className="section-title">
+                <span className="section-icon bg-warm-100 dark:bg-brand-900 text-warm-400">
+                  <PackageX className="w-3.5 h-3.5" />
+                </span>
+                Unused Available Ingredients
+                <span className="text-xs font-normal text-warm-400 ml-1">not needed for this recipe</span>
+              </h2>
+              <div className="p-4 bg-warm-50 dark:bg-brand-900/30 border border-warm-200 dark:border-brand-800 rounded-xl">
+                <p className="text-xs text-warm-400 mb-2.5">
+                  These ingredients from your list weren't a natural fit for this dish:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {unusedList.map((ing, i) => (
+                    <span key={i} className="tag-muted">
+                      <PackageX className="w-3 h-3" />
+                      {ing}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
         </div>
 
-        <div className="px-6 py-3 border-t border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50">
-          <p className="text-xs text-gray-400 dark:text-gray-600">
+        {/* Footer */}
+        <div className="px-6 py-3 border-t border-warm-100 dark:border-brand-800 bg-warm-50 dark:bg-brand-900/30">
+          <p className="text-xs text-warm-300 dark:text-brand-700">
             Generated on {new Date(recipe.generatedAt).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
           </p>
         </div>

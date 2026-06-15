@@ -13,6 +13,12 @@ export interface NutritionInfo {
   fiber: string;
 }
 
+export interface RecommendedIngredient {
+  name: string;
+  quantity: string;
+  reason: string;
+}
+
 export interface Recipe {
   id: string;
   title: string;
@@ -27,6 +33,8 @@ export interface Recipe {
   instructions: string[];
   nutritionEstimate: NutritionInfo;
   cookingTips: string[];
+  unusedIngredients: string[];
+  recommendedIngredients: RecommendedIngredient[];
   generatedAt: string;
 }
 

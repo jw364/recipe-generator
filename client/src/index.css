@@ -3,61 +3,104 @@
 @tailwind utilities;
 
 @layer base {
-  * {
-    box-sizing: border-box;
-  }
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
 
   body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #ffffff;
+    color: #1a1208;
   }
 
-  html {
-    scroll-behavior: smooth;
+  .dark body {
+    background-color: #1c1208;
+    color: #f5e6d3;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 bg-brand text-white font-semibold rounded-xl
+           shadow-brand hover:bg-brand-600 active:scale-[0.98] transition-all duration-200
+           disabled:opacity-40 disabled:cursor-not-allowed disabled:shadow-none disabled:scale-100;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-4 py-2 bg-white text-brand-600 font-medium rounded-xl
+           border border-brand-200 hover:bg-brand-50 active:scale-[0.98] transition-all duration-200;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-3 py-1.5 text-brand-600 font-medium rounded-lg
+           hover:bg-brand-50 transition-colors duration-150;
+  }
+
+  /* Cards */
+  .card {
+    @apply bg-white rounded-2xl border border-warm-200 shadow-warm;
+  }
+
+  .card-hover {
+    @apply card hover:shadow-warm-md hover:border-brand-200 transition-all duration-200;
+  }
+
+  /* Tags */
+  .tag-brand {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 bg-blush text-brand-700
+           border border-blush-200 rounded-full text-xs font-medium;
+  }
+
+  .tag-muted {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 bg-warm-100 text-warm-500
+           border border-warm-200 rounded-full text-xs font-medium;
+  }
+
+  /* Inputs */
+  .input {
+    @apply w-full px-3.5 py-2.5 bg-warm-50 border border-warm-200 rounded-xl text-sm
+           text-gray-900 placeholder-warm-400 transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-brand-300 focus:border-brand-400
+           dark:bg-brand-950 dark:border-brand-800 dark:text-warm-100 dark:placeholder-brand-700;
+  }
+
+  .select {
+    @apply input appearance-none cursor-pointer;
+  }
+
+  /* Section headers */
+  .section-title {
+    @apply flex items-center gap-2 text-base font-bold text-gray-900 dark:text-warm-100 mb-3;
+  }
+
+  .section-icon {
+    @apply w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold flex-shrink-0;
   }
 }
 
 @layer utilities {
   .scrollbar-thin {
     scrollbar-width: thin;
-    scrollbar-color: #10b981 transparent;
+    scrollbar-color: #9D6C3C transparent;
   }
+  .scrollbar-thin::-webkit-scrollbar { width: 5px; }
+  .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-thin::-webkit-scrollbar-thumb { background-color: #9D6C3C; border-radius: 3px; }
 
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background-color: #10b981;
-    border-radius: 3px;
+  .text-brand-gradient {
+    background: linear-gradient(135deg, #9D6C3C, #7e5630);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
 
 @media print {
-  .no-print {
-    display: none !important;
-  }
-
-  .print-only {
-    display: block !important;
-  }
-
-  body {
-    background: white !important;
-    color: black !important;
-  }
-
-  .recipe-card {
-    box-shadow: none !important;
-    border: none !important;
-  }
-
-  @page {
-    margin: 15mm;
-  }
+  .no-print { display: none !important; }
+  body { background: white !important; color: black !important; }
+  .recipe-card { box-shadow: none !important; border: none !important; }
+  @page { margin: 15mm; }
 }
