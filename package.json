@@ -13,6 +13,9 @@
     "type-check": "npm run type-check --workspace=client && npm run type-check --workspace=server",
     "start": "npm run start --workspace=server"
   },
+  "dependencies": {
+    "serve": "^14.2.3"
+  },
   "devDependencies": {
     "concurrently": "^8.2.2"
   }
