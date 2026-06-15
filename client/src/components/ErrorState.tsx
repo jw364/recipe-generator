@@ -16,7 +16,7 @@ export default function ErrorState({ error, onRetry, onBack }: ErrorStateProps) 
     : isAuth
     ? 'Your API key appears to be invalid or missing. Check the server configuration.'
     : isNetwork
-    ? 'Cannot reach the server. Make sure the backend is running on port 3001.'
+    ? 'Cannot reach the server. Check that the backend service is running and VITE_API_URL is set correctly.'
     : 'Something went wrong while generating your recipe. Please try again.';
 
   return (

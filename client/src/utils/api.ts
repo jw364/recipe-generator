@@ -2,7 +2,7 @@ import axios from 'axios';
 import type { Recipe, RecipeRequest } from '../types/recipe';
 
 const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL ?? '',
   timeout: 60000,
   headers: {
     'Content-Type': 'application/json',
@@ -11,7 +11,7 @@ const apiClient = axios.create({
 
 export async function generateRecipe(request: RecipeRequest): Promise<Recipe> {
   const response = await apiClient.post<{ success: boolean; data: Recipe; error?: string }>(
-    '/recipe/generate',
+    '/api/recipe/generate',
     request
   );
 
