@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { Toaster } from 'react-hot-toast';
-import { ChefHat, Sparkles } from 'lucide-react';
+import { Cherry, Sparkles } from 'lucide-react';
 import Header from './components/Header';
 import IngredientInput from './components/IngredientInput';
 import RecipeOptions from './components/RecipeOptions';
@@ -46,18 +46,18 @@ export default function App() {
 
   return (
     <div className={theme}>
-      <div className="min-h-screen bg-white dark:bg-brand-950 transition-colors duration-300">
+      <div className="min-h-screen bg-white dark:bg-blossom-950 transition-colors duration-300">
         <Toaster
           position="top-right"
           toastOptions={{
             duration: 3000,
             style: {
-              background: theme === 'dark' ? '#3c281a' : '#fff',
-              color: theme === 'dark' ? '#f5e6d3' : '#1a1208',
-              border: theme === 'dark' ? '1px solid #4c3320' : '1px solid #edddd0',
+              background: theme === 'dark' ? '#420707' : '#fff',
+              color: theme === 'dark' ? '#ffeeee' : '#1a0505',
+              border: `1px solid #FFBDBD`,
               borderRadius: '12px',
               fontSize: '14px',
-              boxShadow: '0 4px 14px rgba(157, 108, 60, 0.15)',
+              boxShadow: '0 4px 14px rgba(255, 189, 189, 0.3)',
             },
           }}
         />
@@ -69,18 +69,17 @@ export default function App() {
             <div className="animate-fade-in">
               {/* Hero */}
               <div className="text-center mb-10">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-gradient rounded-2xl shadow-warm-lg mb-5 animate-bounce-gentle">
-                  <ChefHat className="w-8 h-8 text-white" />
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-blossom-gradient rounded-2xl shadow-blossom-md mb-5 animate-bounce-gentle">
+                  <Cherry className="w-8 h-8 text-rose-600" />
                 </div>
-                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-warm-100 mb-3">
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-blossom-100 mb-3">
                   What's in Your Kitchen?
                 </h1>
-                <p className="text-warm-400 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
-                  Tell us the ingredients you have on hand. Our AI chef will craft the best possible recipe — no need to use every ingredient.
+                <p className="text-rose-300 text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
+                  Tell us the ingredients you have on hand. Blossom Market will craft the best possible recipe — no need to use every ingredient.
                 </p>
               </div>
 
-              {/* Form */}
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-7">
                 <IngredientInput
                   ingredients={ingredients}
@@ -91,40 +90,33 @@ export default function App() {
                 <RecipeOptions options={options} onChange={setOptions} />
               </div>
 
-              {/* CTA */}
               <div className="flex flex-col items-center gap-2">
                 <button
                   onClick={handleGenerate}
                   disabled={ingredients.length === 0}
-                  className={`btn-primary text-base px-8 py-3.5 rounded-2xl ${ingredients.length === 0 ? 'opacity-40 shadow-none cursor-not-allowed' : 'shadow-brand hover:shadow-warm-lg'}`}
+                  className="btn-primary text-base px-8 py-3.5 rounded-2xl"
                 >
                   <Sparkles className="w-5 h-5" />
                   Generate Recipe
                   {ingredients.length > 0 && (
-                    <span className="ml-1 px-2 py-0.5 bg-white/20 rounded-lg text-sm font-normal">
+                    <span className="ml-1 px-2 py-0.5 bg-white/40 rounded-lg text-sm font-normal border border-blossom-300">
                       {ingredients.length} ingredient{ingredients.length !== 1 ? 's' : ''}
                     </span>
                   )}
                 </button>
                 {ingredients.length === 0 && (
-                  <p className="text-xs text-warm-300 dark:text-brand-700">Add at least one ingredient to get started</p>
+                  <p className="text-xs text-rose-200 dark:text-blossom-700">Add at least one ingredient to get started</p>
                 )}
                 {ingredients.length > 0 && (
-                  <p className="text-xs text-warm-400">The AI will select the best combination — not every ingredient needs to be used</p>
+                  <p className="text-xs text-rose-300">The AI will select the best combination — unused ingredients will be listed</p>
                 )}
               </div>
             </div>
           )}
 
           {loading && <LoadingState />}
-
-          {error && !loading && (
-            <ErrorState error={error} onRetry={handleRetry} onBack={clearRecipe} />
-          )}
-
-          {recipe && !loading && !error && (
-            <RecipeDisplay recipe={recipe} onBack={clearRecipe} />
-          )}
+          {error && !loading && <ErrorState error={error} onRetry={handleRetry} onBack={clearRecipe} />}
+          {recipe && !loading && !error && <RecipeDisplay recipe={recipe} onBack={clearRecipe} />}
         </main>
 
         {showHistory && (
