@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { Toaster } from 'react-hot-toast';
-import { Cherry, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import Header from './components/Header';
 import IngredientInput from './components/IngredientInput';
 import RecipeOptions from './components/RecipeOptions';
@@ -69,9 +69,11 @@ export default function App() {
             <div className="animate-fade-in">
               {/* Hero */}
               <div className="text-center mb-10">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-blossom-gradient rounded-2xl shadow-blossom-md mb-5 animate-bounce-gentle">
-                  <Cherry className="w-8 h-8 text-rose-600" />
-                </div>
+                <img
+                  src="/blossom-logo.png"
+                  alt="Blossom Market"
+                  className="w-16 h-16 object-contain mb-5 animate-bounce-gentle drop-shadow-md"
+                />
                 <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-blossom-100 mb-3">
                   What's in Your Kitchen?
                 </h1>
