@@ -69,11 +69,6 @@ export default function App() {
             <div className="animate-fade-in">
               {/* Hero */}
               <div className="text-center mb-10">
-                <img
-                  src="/blossom-logo.png"
-                  alt="Blossom Market"
-                  className="w-16 h-16 object-contain mb-5 animate-bounce-gentle drop-shadow-md"
-                />
                 <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-blossom-100 mb-3">
                   What's in Your Kitchen?
                 </h1>

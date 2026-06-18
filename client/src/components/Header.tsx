@@ -10,22 +10,10 @@ interface HeaderProps {
 
 export default function Header({ theme, onToggleTheme, historyCount, onOpenHistory }: HeaderProps) {
   return (
-    <header className="sticky top-0 z-40 bg-white/90 dark:bg-blossom-950/90 backdrop-blur-md border-b border-blossom-200 dark:border-blossom-900 no-print">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Brand */}
-        <div className="flex items-center gap-3">
-          <img
-            src="/blossom-logo.png"
-            alt="Blossom Market"
-            className="w-10 h-10 object-contain flex-shrink-0 drop-shadow-sm"
-          />
-          <span className="text-lg font-bold text-rose-800 dark:text-blossom-200 tracking-tight">
-            Blossom Market
-          </span>
-        </div>
-
-        {/* Nav */}
-        <nav className="flex items-center gap-1">
+    <>
+      {/* Sticky utility bar */}
+      <div className="sticky top-0 z-40 bg-white/90 dark:bg-blossom-950/90 backdrop-blur-md border-b border-blossom-200 dark:border-blossom-900 no-print">
+        <div className="max-w-6xl mx-auto px-4 h-10 flex items-center justify-end gap-1">
           <button
             onClick={onOpenHistory}
             className="relative flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-rose-600 dark:text-blossom-300 hover:bg-blossom-100 dark:hover:bg-blossom-900 rounded-lg transition-colors"
@@ -56,8 +44,22 @@ export default function Header({ theme, onToggleTheme, historyCount, onOpenHisto
           >
             <Github className="w-4 h-4" />
           </a>
-        </nav>
+        </div>
       </div>
-    </header>
+
+      {/* Brand hero — centered, large logo */}
+      <header className="bg-white dark:bg-blossom-950 border-b border-blossom-100 dark:border-blossom-900 no-print">
+        <div className="flex flex-col items-center justify-center py-8 sm:py-10 px-4">
+          <img
+            src="/blossom-logo.png"
+            alt="Blossom Market"
+            className="w-32 h-32 sm:w-44 sm:h-44 lg:w-52 lg:h-52 object-contain drop-shadow-lg mb-4"
+          />
+          <span className="text-2xl sm:text-3xl font-bold text-rose-800 dark:text-blossom-200 tracking-tight">
+            Blossom Market
+          </span>
+        </div>
+      </header>
+    </>
   );
 }
