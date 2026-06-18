@@ -55,7 +55,7 @@ export default function Header({ theme, onToggleTheme, historyCount, onOpenHisto
             alt="Blossom Market"
             className="w-32 h-32 sm:w-44 sm:h-44 lg:w-52 lg:h-52 object-contain drop-shadow-lg mb-4"
           />
-          <span className="text-2xl sm:text-3xl font-bold text-rose-800 dark:text-blossom-200 tracking-tight">
+          <span className="font-brand italic text-2xl sm:text-3xl font-bold text-rose-800 dark:text-blossom-200 tracking-tight">
             Blossom Market
           </span>
         </div>
