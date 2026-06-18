@@ -1,4 +1,4 @@
-import { Moon, Sun, History, Github, Cherry } from 'lucide-react';
+import { Moon, Sun, History, Github } from 'lucide-react';
 import type { Theme } from '../types/recipe';
 
 interface HeaderProps {
@@ -14,9 +14,11 @@ export default function Header({ theme, onToggleTheme, historyCount, onOpenHisto
       <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
         {/* Brand */}
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-blossom-gradient rounded-xl flex items-center justify-center shadow-blossom flex-shrink-0">
-            <Cherry className="w-5 h-5 text-rose-700" />
-          </div>
+          <img
+            src="/blossom-logo.png"
+            alt="Blossom Market"
+            className="w-10 h-10 object-contain flex-shrink-0 drop-shadow-sm"
+          />
           <span className="text-lg font-bold text-rose-800 dark:text-blossom-200 tracking-tight">
             Blossom Market
           </span>

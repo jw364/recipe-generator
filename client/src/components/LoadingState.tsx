@@ -1,5 +1,3 @@
-import { UtensilsCrossed } from 'lucide-react';
-
 const MESSAGES = [
   'Analyzing your ingredients…',
   'Crafting the perfect recipe…',
@@ -12,10 +10,10 @@ export default function LoadingState() {
   return (
     <div className="flex flex-col items-center justify-center py-24 animate-fade-in">
       <div className="relative mb-8">
-        <div className="w-20 h-20 bg-blossom-gradient rounded-2xl flex items-center justify-center shadow-blossom-lg animate-bounce-gentle">
-          <UtensilsCrossed className="w-10 h-10 text-rose-600" />
+        <div className="w-20 h-20 flex items-center justify-center animate-bounce-gentle">
+          <img src="/blossom-logo.png" alt="Blossom Market" className="w-20 h-20 object-contain drop-shadow-md" />
         </div>
-        <div className="absolute inset-0 rounded-2xl bg-blossom-300 animate-pulse-ring opacity-60" />
+        <div className="absolute inset-0 rounded-full bg-blossom-300 animate-pulse-ring opacity-40" />
       </div>
 
       <h3 className="text-xl font-bold text-gray-900 dark:text-blossom-100 mb-2">Crafting Your Recipe</h3>
